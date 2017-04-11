@@ -1,9 +1,50 @@
 {% extends "base.html" %}
 
+{% block stylesheets %}
+<style>
+
+th.chalname {
+    height: 80px;
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    vertical-align: bottom;
+    padding: 0;
+    font-size: 12px;
+    line-height: 0.8;
+}
+.chalname > div{
+    position: relative;
+    top: 0px;
+    left: 30px;
+    height: 100%;
+    overflow: hidden;
+    /* TODO border */
+    -webkit-transform: skew(-45deg,0deg);
+    transform: skew(-45deg,0deg);
+}
+.chalname span{
+    display: inline-block;
+    position: absolute;
+    bottom: 30px;
+    left: -30px;
+    text-align: left;
+    width:85px;
+    -webkit-transform: skew(45deg,0deg) rotate(315deg);
+    transform: skew(45deg,0deg) rotate(315deg);
+}
+.chalmark {
+    font-size:20px;
+}
+
+</style>
+{% endblock %}
+
+
 {% block content %}
 <div class="jumbotron home">
     <div class="container">
-        <h1>Scoreboard</h1>
+        <h1>Scoreboard - Matrix</h1>
     </div>
 </div>
 <div class="container main-container">
@@ -25,23 +66,35 @@
         </div>
         {% endif %}
 
-    <div id="score-graph"></div>
-    <br>
-
     <table id="scoreboard" class="table table-striped">
         <thead>
             <tr>
-                <td width="10px"><b>Place</b>
-                </td>
-                <td><b>Team</b>
-                </td>
-                <td><b>Score</b>
-                </td>
+                <th width="10px"><b>#</b>
+                </th>
+                <th><b>Team</b>
+                </th>
+                <th><b>Score</b>
+                </th>
+                {% for chal in challenges %}
+                <th class="chalname"><div><span>{{ chal.name }}</span></th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
         {% for team in teams %}
-            <tr><td>{{ loop.index }}</td><td><a href="{{ request.script_root }}/team/{{ team.teamid }}">{{ team.name }}</a></td><td>{{ team.score }}</td></tr>
+            <tr><td>{{ loop.index }}</td><td><a href="{{ request.script_root }}/team/{{ team.teamid }}">{{ team.name }}</a></td><td>{{ team.score }}</td>
+                {% for chal in challenges %}
+                    <td class="chalmark">
+                    {% if chal.id in team.solves %}
+                    ✔
+                    {% else %}
+                     
+                    {% endif %}
+                    </td>
+                {% endfor %}
+                
+
+               </tr>
         {% endfor %}
         </tbody>
     </table>
@@ -50,7 +103,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/vendor/plotly.min.js"></script>
     <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/utils.js"></script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/scoreboard.js"></script>
+    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/scoreboard-matrix.js"></script>
 {% endblock %}
