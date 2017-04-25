@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, jsonify
 from CTFd import utils, scoreboard, challenges
 
 from CTFd.models import db, Teams, Solves, Awards, Challenges
@@ -64,6 +64,21 @@ def load(app):
         return render_template('scoreboard-matrix.html', teams=standings,
             score_frozen=utils.is_scoreboard_frozen(), challenges=get_challenges())
 
+    def scores():
+        json = {'standings': []}
+        if utils.get_config('view_scoreboard_if_authed') and not utils.authed():
+            return redirect(url_for('auth.login', next=request.path))
+        if utils.hide_scores():
+            return jsonify(json)
+
+        standings = get_standings()
+
+        for i, x in enumerate(standings):
+            json['standings'].append({'pos': i + 1, 'id': x['name'], 'team': x['name'], 
+                'score': int(x['score']), 'solves':x['solves']})
+        return jsonify(json)
+
 
     app.view_functions['scoreboard.scoreboard_view']  = scoreboard_view
+    app.view_functions['scoreboard.scores']  = scores
 
