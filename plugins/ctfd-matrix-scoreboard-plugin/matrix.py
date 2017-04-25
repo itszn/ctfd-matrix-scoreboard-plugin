@@ -29,6 +29,7 @@ def load(app):
             jstandings.append({'teamid':team.teamid, 'score':team.score, 'name':team.name,'solves':jsolves})
         db.session.close()
         return jstandings
+
     def get_challenges():
         if not utils.is_admin():
             if not utils.ctftime():
@@ -49,7 +50,8 @@ def load(app):
                     'name':x.name,
                     'category':x.category
                 })
-        return jchals
+            return jchals
+        return []
 
 
 
