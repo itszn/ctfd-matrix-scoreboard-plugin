@@ -37,5 +37,5 @@ function update(){
 
 setInterval(update, 300000); // Update scores every 5 minutes
 
-window.onresize = function () {
-};
+
+

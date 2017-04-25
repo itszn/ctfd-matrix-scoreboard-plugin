@@ -36,6 +36,13 @@ th.chalname {
 .chalmark {
     font-size:20px;
 }
+.matrix {
+    overflow-x: scroll;
+    cursor: grab;
+    cursor : -o-grab;
+    cursor : -moz-grab;
+    cursor : -webkit-grab;
+}
 
 </style>
 {% endblock %}
@@ -66,6 +73,7 @@ th.chalname {
         </div>
         {% endif %}
 
+    <div class="matrix dragscroll">
     <table id="scoreboard" class="table table-striped">
         <thead>
             <tr>
@@ -98,6 +106,7 @@ th.chalname {
         {% endfor %}
         </tbody>
     </table>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
@@ -105,5 +114,6 @@ th.chalname {
 {% block scripts %}
     <script>var challenges = {{ challenges | tojson }};</script>
     <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/utils.js"></script>
+    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/dragscroll.js"></script>
     <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/scoreboard-matrix.js"></script>
 {% endblock %}
