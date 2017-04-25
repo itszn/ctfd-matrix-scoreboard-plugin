@@ -114,6 +114,6 @@ th.chalname {
 {% block scripts %}
     <script>var challenges = {{ challenges | tojson }};</script>
     <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/utils.js"></script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/dragscroll.js"></script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/scoreboard-matrix.js"></script>
+    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/matrix-scoreboard-plugin/js/dragscroll.js"></script>
+    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/matrix-scoreboard-plugin/js/scoreboard-matrix.js"></script>
 {% endblock %}

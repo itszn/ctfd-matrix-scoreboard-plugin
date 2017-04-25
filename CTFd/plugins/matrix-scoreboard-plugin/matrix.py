@@ -4,7 +4,7 @@ from CTFd import utils, scoreboard, challenges
 from CTFd.models import db, Teams, Solves, Awards, Challenges
 from sqlalchemy.sql import or_
 
-ROOT = '/plugins/ctfd-matrix-scoreboard-plugin/'
+PLUGIN_NAME = 'matrix-scoreboard-plugin'
 
 def load(app):
 
@@ -61,7 +61,7 @@ def load(app):
         if utils.hide_scores():
             return render_template('scoreboard-matrix.html', errors=['Scores are currently hidden'])
         standings = get_standings()
-        return render_template('scoreboard-matrix.html', teams=standings,
+        return render_template(PLUGIN_NAME+'/scoreboard-matrix.html', teams=standings,
             score_frozen=utils.is_scoreboard_frozen(), challenges=get_challenges())
 
     def scores():
