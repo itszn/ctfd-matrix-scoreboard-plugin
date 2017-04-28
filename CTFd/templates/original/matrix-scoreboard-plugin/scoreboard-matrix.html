@@ -84,8 +84,13 @@ th.chalname {
                 <th><b>Score</b>
                 </th>
                 {% for chal in challenges %}
-                <th class="chalname"><div><span>{{ chal.name }}</span></th>
+                    {% if loop.index == 1 or challenges[loop.index-2].category != chal.category %}
+                    {% if loop.index!=1 %}</div>{% endif %}<div class="catname" cat="{{ chal.category }}">
+                    {% endif %}
+                    <div><th class="chalname"><div><span>{{ chal.name }}</span></div></th></div>
+                    
                 {% endfor %}
+                {% if challenges | length > 0 %}</div>{% endif %}
             </tr>
         </thead>
         <tbody>
