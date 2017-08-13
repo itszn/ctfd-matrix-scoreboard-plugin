@@ -51,7 +51,7 @@ th.chalname {
 {% block content %}
 <div class="jumbotron home">
     <div class="container">
-        <h1>Scoreboard - Matrix</h1>
+        <h1>Scoreboard</h1>
     </div>
 </div>
 <div class="container main-container">
@@ -77,11 +77,11 @@ th.chalname {
     <table id="scoreboard" class="table table-striped">
         <thead>
             <tr>
-                <th width="10px"><b>#</b>
+                <th width="5%" class="text-center"><b>#</b>
                 </th>
-                <th><b>Team</b>
+                <th width="10%"><b>Team</b>
                 </th>
-                <th><b>Score</b>
+                <th width="10%"><b>Score</b>
                 </th>
                 {% for chal in challenges %}
                     <div><th class="chalname" title="{{ chal.category }}"><div><span>{{ chal.name }}</span></div></th></div>
@@ -96,11 +96,11 @@ th.chalname {
                     {% if chal.id in team.solves %}
                     ✔
                     {% else %}
-                     
+
                     {% endif %}
                     </td>
                 {% endfor %}
-                
+
 
                </tr>
         {% endfor %}
@@ -113,7 +113,7 @@ th.chalname {
 
 {% block scripts %}
     <script>var challenges = {{ challenges | tojson }};</script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/utils.js"></script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/matrix-scoreboard-plugin/js/dragscroll.js"></script>
-    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/matrix-scoreboard-plugin/js/scoreboard-matrix.js"></script>
+    <script src="{{ request.script_root }}/themes/{{ ctf_theme() }}/static/js/utils.js"></script>
+    <script src="{{ request.script_root }}/matrix/static/dragscroll.js"></script>
+    <script src="{{ request.script_root }}/matrix/static/scoreboard-matrix.js"></script>
 {% endblock %}

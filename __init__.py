@@ -1,14 +1,20 @@
-from flask import render_template, jsonify
+from flask import render_template, jsonify, Blueprint
 from CTFd import utils, scoreboard, challenges
-
+from CTFd.utils import override_template
 from CTFd.models import db, Teams, Solves, Awards, Challenges
 from sqlalchemy.sql import or_
 
 import itertools
+import os
 
-PLUGIN_NAME = 'matrix-scoreboard-plugin'
 
 def load(app):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    template_path = os.path.join(dir_path, 'scoreboard-matrix.html')
+    override_template('scoreboard.html', open(template_path).read())
+
+    matrix = Blueprint('matrix', __name__, static_folder='static')
+    app.register_blueprint(matrix, url_prefix='/matrix')
 
     def get_standings():
         standings = scoreboard.get_standings()
@@ -26,11 +32,10 @@ def load(app):
             jsolves = []
             for solve in solves:
                 jsolves.append(solve.chalid)
-
-
             jstandings.append({'teamid':team.teamid, 'score':team.score, 'name':team.name,'solves':jsolves})
         db.session.close()
         return jstandings
+
 
     def get_challenges():
         if not utils.is_admin():
@@ -60,15 +65,14 @@ def load(app):
         return []
 
 
-
     def scoreboard_view():
         if utils.get_config('view_scoreboard_if_authed') and not utils.authed():
             return redirect(url_for('auth.login', next=request.path))
         if utils.hide_scores():
-            return render_template(PLUGIN_NAME+'/scoreboard-matrix.html',
+            return render_template('scoreboard.html',
                     errors=['Scores are currently hidden'])
         standings = get_standings()
-        return render_template(PLUGIN_NAME+'/scoreboard-matrix.html', teams=standings,
+        return render_template('scoreboard.html', teams=standings,
             score_frozen=utils.is_scoreboard_frozen(), challenges=get_challenges())
 
     def scores():
@@ -81,11 +85,10 @@ def load(app):
         standings = get_standings()
 
         for i, x in enumerate(standings):
-            json['standings'].append({'pos': i + 1, 'id': x['name'], 'team': x['name'], 
+            json['standings'].append({'pos': i + 1, 'id': x['name'], 'team': x['name'],
                 'score': int(x['score']), 'solves':x['solves']})
         return jsonify(json)
 
 
     app.view_functions['scoreboard.scoreboard_view']  = scoreboard_view
     app.view_functions['scoreboard.scores']  = scores
-
