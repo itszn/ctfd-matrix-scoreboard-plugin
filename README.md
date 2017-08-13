@@ -5,4 +5,6 @@ A matrix scoreboard shows what challenges teams have solved, as well as their pl
 
 ## Install
 
-To install, copy the contents of the CTFd director into your local CTFd directory.
+Clone this repository into the CTFd/plugins folder.
+
+
