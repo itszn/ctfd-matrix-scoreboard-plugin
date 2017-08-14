@@ -3,6 +3,10 @@
 This [CTFd](https://github.com/CTFd/CTFd) plugin changes the default list scoreboard into a "matrix" scoreboard.
 A matrix scoreboard shows what challenges teams have solved, as well as their place and score.
 
+![Matrix Scoreboard](https://raw.githubusercontent.com/ColdHeat/ctfd-matrix-scoreboard-plugin/master/screenshot.png)
+
 ## Install
 
-To install, copy the contents of the CTFd director into your local CTFd directory.
+Clone this repository into the CTFd/plugins folder.
+
+
