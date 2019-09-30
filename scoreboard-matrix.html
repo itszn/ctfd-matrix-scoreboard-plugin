@@ -108,10 +108,11 @@ th.chalname {
                 <td>{{ loop.index }}</td>
                 <td><a href="{{ request.script_root }}/{{ mode }}/{{ team.teamid }}">{{ team.name }}</a></td>
                 <td id='{{ loop.index }}-team-score'>{{ team.score }}</td>
+                {% set outer_loop = loop %}
                 {% for chal in challenges %}
                     <td class="chalmark class-{{ chal.category }}">
                     {% if chal.id in team.solves %}
-                    ✔<div class="{{ loop.index }}-team-{{ chal.category }}" style='visibility: hidden;' title='{{chal.value}}'></div>
+                    ✔<div class="{{ outer_loop.index }}-team-{{ chal.category }}" style='visibility: hidden;' title='{{chal.value}}'></div>
                     {% else %}
 
                     {% endif %}
