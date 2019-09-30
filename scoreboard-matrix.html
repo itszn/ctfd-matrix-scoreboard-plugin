@@ -79,7 +79,12 @@ th.chalname {
         </div>
     </div>
 
-
+    <select id="cat-selector">
+        <option value="all">ALL</option>
+        {% for cat in categories %}
+        <option value="{{cat}}">{{cat}}</option>
+        {% endfor %}
+    </select>
     <div class="matrix dragscroll">
     <table id="scoreboard" class="table table-striped">
         <thead>
@@ -91,7 +96,7 @@ th.chalname {
                 <th width="10%"><b>Score</b>
                 </th>
                 {% for chal in challenges %}
-                    <div><th class="chalname" title="{{ chal.category }}">
+                    <div><th class="chalname class-{{ chal.category }}" title="{{ chal.category }}">
                         <div><span>{{ chal.name }}</span></div>
                     </th></div>
                 {% endfor %}
@@ -104,7 +109,7 @@ th.chalname {
                 <td><a href="{{ request.script_root }}/{{ mode }}/{{ team.teamid }}">{{ team.name }}</a></td>
                 <td>{{ team.score }}</td>
                 {% for chal in challenges %}
-                    <td class="chalmark">
+                    <td class="chalmark class-{{ chal.category }}">
                     {% if chal.id in team.solves %}
                     ✔
                     {% else %}

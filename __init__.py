@@ -74,7 +74,7 @@ def load(app):
             # Sort into groups
             categories = set(map(lambda x: x['category'], jchals))
             jchals = [j for c in categories for j in jchals if j['category'] == c]
-            return jchals
+            return jchals, categories
         return []
 
     def scoreboard_view():
@@ -84,10 +84,11 @@ def load(app):
             return render_template('scoreboard.html',
                                    errors=['Scores are currently hidden'])
         standings = get_standings()
+        challenges, categories = get_challenges()
         return render_template('scoreboard.html', standings=standings,
                                score_frozen=is_scoreboard_frozen(),
                                mode='users' if is_users_mode() else 'teams',
-                               challenges=get_challenges(), theme=ctf_theme())
+                               challenges=challenges, categories=categories, theme=ctf_theme())
 
     def scores():
         json = {'standings': []}
