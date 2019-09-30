@@ -61,14 +61,16 @@ def load(app):
             chals = db.session.query(
                 Challenges.id,
                 Challenges.name,
-                Challenges.category
+                Challenges.category,
+                Challenges.value
             ).filter(or_(Challenges.state != 'hidden', Challenges.state is None)).all()
             jchals = []
             for x in chals:
                 jchals.append({
                     'id': x.id,
                     'name': x.name,
-                    'category': x.category
+                    'category': x.category,
+                    'value': x.value
                 })
 
             # Sort into groups

@@ -93,7 +93,7 @@ th.chalname {
                 </th>
                 <th width="10%"><b>Team</b>
                 </th>
-                <th width="10%"><b>Score</b>
+                <th id='score-category' width="10%"><b>Score-ALL</b>
                 </th>
                 {% for chal in challenges %}
                     <div><th class="chalname class-{{ chal.category }}" title="{{ chal.category }}">
@@ -107,11 +107,11 @@ th.chalname {
             <tr>
                 <td>{{ loop.index }}</td>
                 <td><a href="{{ request.script_root }}/{{ mode }}/{{ team.teamid }}">{{ team.name }}</a></td>
-                <td>{{ team.score }}</td>
+                <td id='{{ loop.index }}-team-score'>{{ team.score }}</td>
                 {% for chal in challenges %}
                     <td class="chalmark class-{{ chal.category }}">
                     {% if chal.id in team.solves %}
-                    ✔
+                    ✔<div class="{{ loop.index }}-team-{{ chal.category }}" style='visibility: hidden;' title='{{chal.value}}'></div>
                     {% else %}
 
                     {% endif %}
