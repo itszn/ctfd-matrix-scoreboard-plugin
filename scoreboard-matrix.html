@@ -79,6 +79,7 @@ th.chalname {
         </div>
     </div>
 
+
     <div class="matrix dragscroll">
     <table id="scoreboard" class="table table-striped">
         <thead>
@@ -122,10 +123,12 @@ th.chalname {
 
 {% block scripts %}
     <script>var challenges = {{ challenges | tojson }};</script>
-    <script src="{{ url_for('views.themes', path='js/vendor/plotly.min.js') }}"></script>
-	<script src="{{ url_for('views.themes', path='js/utils.js') }}"></script>
-	<script src="{{ url_for('views.themes', path='js/scoreboard.js') }}"></script>
-    <script src="{{ request.script_root }}/themes/{{ theme }}/static/js/utils.js"></script>
+    <script async src="{{ url_for('views.themes', path='js/plotly.bundle.js') }}"></script>
+	<script async src="{{ url_for('views.themes', path='js/pages/scoreboard.js') }}"></script>
+	<script async src="{{ url_for('views.themes', theme='admin', path='js/pages/scoreboard.js') }}"></script>
     <script src="{{ request.script_root }}/matrix/static/dragscroll.js"></script>
     <script src="{{ request.script_root }}/matrix/static/scoreboard-matrix.js"></script>
+    <script src="{{ request.script_root }}/matrix/static/sumwithcat.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
 {% endblock %}
