@@ -55,23 +55,7 @@ th.chalname {
     </div>
 </div>
 <div class="container main-container">
-    {% if errors %}
-    <div class="container main-container">
-        <div id='errors' class="row">
-    {% for error in errors %}
-            <h1>{{ error }}</h1>
-    {% endfor %}
-        </div>
-    </div>
-    {% else %}
-
-        {% if score_frozen %}
-        <div class="container main-container">
-            <div class="row">
-                <h1>Scoreboard has been frozen.</h1>
-            </div>
-        </div>
-        {% endif %}
+    {% include "components/errors.html" %}
 
     <div class="matrix dragscroll">
     <table id="scoreboard" class="table table-striped">
@@ -93,8 +77,8 @@ th.chalname {
         <tbody>
         {% for team in standings %}
             <tr>
-                <td>{{ loop.index }}</td>
-                <td><a href="{{ request.script_root }}/{{ mode }}/{{ team.teamid }}">{{ team.name }}</a></td>
+                <td class="text-center">{{ loop.index }}</td>
+                <td><a href="/{{ mode }}/{{ team.teamid }}">{{ team.name }}</a></td>
                 <td>{{ team.score }}</td>
                 {% for chal in challenges %}
                     <td class="chalmark">
@@ -110,13 +94,16 @@ th.chalname {
         </tbody>
     </table>
     </div>
-    {% endif %}
 </div>
 {% endblock %}
 
-{% block scripts %}
-    <script>var challenges = {{ challenges | tojson }};</script>
-    <script src="{{ request.script_root }}/themes/{{ theme }}/static/js/utils.js"></script>
-    <script src="{{ request.script_root }}/matrix/static/dragscroll.js"></script>
-    <script src="{{ request.script_root }}/matrix/static/scoreboard-matrix.js"></script>
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/main.js') }}"></script>
 {% endblock %}
+
+{% block scripts %}
+    <script>var challenges = {{ challenges | tojson }};var mode = "{{ mode }}";</script>
+    <script defer src="/matrix/static/dragscroll.js"></script>
+    <script defer src="/matrix/static/scoreboard-matrix.js"></script>
+{% endblock %}
+
