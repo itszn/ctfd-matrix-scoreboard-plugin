@@ -1,23 +1,19 @@
 from flask import (
     render_template,
-    jsonify,
     Blueprint,
-    url_for,
     session,
-    redirect,
     request
 )
 
 from CTFd import utils, scoreboard
 from CTFd.api.v1.challenges import ChallengeList
 from CTFd.models import db, Solves
-from CTFd.utils.config import is_scoreboard_frozen, is_users_mode
-from CTFd.utils.config.visibility import challenges_visible, scores_visible
+from CTFd.utils.config import is_scoreboard_frozen
+from CTFd.utils.config.visibility import challenges_visible
 from CTFd.utils.dates import unix_time_to_utc
 from CTFd.utils.decorators.visibility import check_score_visibility
 from CTFd.utils.helpers import get_infos
 from CTFd.utils.modes import get_mode_as_word, TEAMS_MODE
-from CTFd.utils.user import authed
 
 
 def load(app):
@@ -69,22 +65,6 @@ def load(app):
             infos.append("Scoreboard has been frozen")
 
         return render_template('scoreboard-matrix.html', standings=standings,
-                               mode='users' if is_users_mode() else 'teams',
                                challenges=get_challenges())
-
-    @app.route('/score')
-    def scores():
-        json = {'standings': []}
-        if scores_visible() and not authed():
-            return redirect(url_for('auth.login', next=request.path))
-        if not scores_visible():
-            return jsonify(json)
-
-        standings = get_standings()
-
-        for i, x in enumerate(standings):
-            json['standings'].append({'pos': i + 1, 'id': x['name'], 'team': x['name'],
-                                      'score': int(x['score']), 'solves': x['solves']})
-        return jsonify(json)
 
     app.view_functions['scoreboard.listing'] = scoreboard_view
